@@ -67,6 +67,29 @@
         #crop-canvas { touch-action: none; cursor: grab; max-width: 100%; background: #111; }
         #crop-canvas:active { cursor: grabbing; }
 
+        /* On desktop, keep the complete form and its live invitation preview visible together. */
+        @media (min-width: 1024px) {
+            #view-editor.details-sidebar-open #editor-workspace {
+                padding: 1.5rem 2rem 3rem 31rem;
+            }
+            #modal-container.details-sidebar-open {
+                align-items: stretch;
+                justify-content: flex-start;
+                padding: 5.5rem 0 1.5rem 1.5rem;
+                background: transparent;
+                backdrop-filter: none;
+                pointer-events: none;
+            }
+            #modal-container.details-sidebar-open #modal-content-wrapper {
+                width: 27rem;
+                max-width: calc(100vw - 31rem);
+                max-height: none;
+                border-radius: 1.5rem;
+                pointer-events: auto;
+                transform: none !important;
+            }
+        }
+
         /* Presentation Style Mode CSS overrides */
         .presentation-mode-scrolling,
         .presentation-mode-scrolling .rnk-container,
@@ -2192,7 +2215,10 @@ END:VCALENDAR`;
 
         window.openInvitationDetails = function() {
             currentEditKey = null;
-            document.getElementById('modal-container').classList.remove('hidden');
+            const modal = document.getElementById('modal-container');
+            modal.classList.remove('hidden');
+            modal.classList.add('details-sidebar-open');
+            document.getElementById('view-editor').classList.add('details-sidebar-open');
             setTimeout(() => { document.getElementById('modal-content-wrapper').classList.remove('translate-y-full'); }, 10);
             document.querySelectorAll('.edit-form').forEach(el => el.classList.add('hidden'));
             ['modal-couple', 'modal-content', 'modal-quran', 'modal-mainEvent'].forEach(id => document.getElementById(id)?.classList.remove('hidden'));
@@ -2203,6 +2229,8 @@ END:VCALENDAR`;
         }
 
         window.closeModal = function() {
+            document.getElementById('modal-container').classList.remove('details-sidebar-open');
+            document.getElementById('view-editor').classList.remove('details-sidebar-open');
             document.getElementById('modal-content-wrapper').classList.add('translate-y-full');
             setTimeout(() => { document.getElementById('modal-container').classList.add('hidden'); }, 300);
         }
