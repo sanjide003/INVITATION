@@ -806,7 +806,7 @@
         try {
             app = initializeApp(firebaseConfig);
             auth = getAuth(app);
-            db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+            db = getFirestore(app);
         } catch (e) {
             console.error("Firebase init failed:", e);
             showToast("Firebase Config Error.", "error");
