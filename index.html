@@ -1404,6 +1404,21 @@ END:VCALENDAR`;
             });
         }
 
+        function getGoogleLoginErrorMessage(error) {
+            const messages = {
+                'auth/operation-not-allowed': 'Google Sign-in is not enabled in this Firebase project.',
+                'auth/unauthorized-domain': 'This website domain is not authorized for Firebase Google Sign-in.',
+                'auth/invalid-api-key': 'The Firebase API key is invalid or restricted for this website.',
+                'auth/app-not-authorized': 'This website is not authorized to use the configured Firebase project.',
+                'auth/popup-blocked': 'The browser blocked the Google login popup. Allow popups and try again.',
+                'auth/popup-closed-by-user': 'The Google login popup was closed before sign-in completed.',
+                'auth/cancelled-popup-request': 'Another Google login request is already in progress.',
+                'auth/network-request-failed': 'A network error prevented Google Sign-in. Check your internet connection.'
+            };
+            const code = error?.code || 'unknown-error';
+            return `${messages[code] || 'Google Sign-in failed. Please try again.'} (${code})`;
+        }
+
         // Popup login to avoid redirect loops and white screens
         document.getElementById('btn-google-login')?.addEventListener('click', async () => {
             showLoader("Signing in securely...");
@@ -1413,7 +1428,7 @@ END:VCALENDAR`;
             } catch (error) {
                 hideLoader();
                 console.error("Login Error:", error);
-                showToast("Login failed. Check console for details.", "error");
+                showToast(getGoogleLoginErrorMessage(error), "error");
             }
         });
 
