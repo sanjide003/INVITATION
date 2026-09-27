@@ -83,12 +83,15 @@
             #modal-container.details-sidebar-open #modal-content-wrapper {
                 width: 27rem;
                 max-width: calc(100vw - 31rem);
+                height: calc(100dvh - 7rem);
                 max-height: none;
                 border-radius: 1.5rem;
+                overflow: hidden;
                 pointer-events: auto;
                 transform: none !important;
             }
         }
+        #modal-container.details-sidebar-open #modal-footer { display: none; }
 
         /* Presentation Style Mode CSS overrides */
         .presentation-mode-scrolling,
@@ -748,7 +751,7 @@
 
             </div>
             
-            <div class="p-4 border-t border-gray-100 bg-white md:rounded-b-3xl shrink-0">
+            <div id="modal-footer" class="p-4 border-t border-gray-100 bg-white md:rounded-b-3xl shrink-0">
                 <button onclick="closeModal()" class="w-full bg-gray-900 text-white font-bold py-3.5 rounded-xl hover:bg-black transition active:scale-95 shadow-md">Done</button>
             </div>
         </div>
@@ -775,6 +778,7 @@
         let currentUser = null;
         let allInvitationsCache = [];
         let currentEditKey = null; // Tracks which specific text block is being edited
+        let removeDetailsScrollSync = null;
         
         const state = {
             editingId: null,
@@ -2226,9 +2230,41 @@ END:VCALENDAR`;
             document.getElementById('modal-title').innerText = 'Invitation details';
             document.getElementById('dynamic-style-panel').classList.add('hidden');
             bindDataToForms();
+            setupDetailsScrollSync();
+        }
+
+        function setupDetailsScrollSync() {
+            if (removeDetailsScrollSync) removeDetailsScrollSync();
+            if (!window.matchMedia('(min-width: 1024px)').matches) return;
+
+            const form = document.getElementById('modal-body');
+            const preview = document.getElementById('editor-workspace');
+            if (!form || !preview) return;
+
+            let syncing = false;
+            const syncScroll = (source, target) => {
+                if (syncing) return;
+                const sourceRange = source.scrollHeight - source.clientHeight;
+                const targetRange = target.scrollHeight - target.clientHeight;
+                if (sourceRange <= 0 || targetRange <= 0) return;
+
+                syncing = true;
+                target.scrollTop = (source.scrollTop / sourceRange) * targetRange;
+                requestAnimationFrame(() => { syncing = false; });
+            };
+            const onFormScroll = () => syncScroll(form, preview);
+            const onPreviewScroll = () => syncScroll(preview, form);
+            form.addEventListener('scroll', onFormScroll, { passive: true });
+            preview.addEventListener('scroll', onPreviewScroll, { passive: true });
+            removeDetailsScrollSync = () => {
+                form.removeEventListener('scroll', onFormScroll);
+                preview.removeEventListener('scroll', onPreviewScroll);
+                removeDetailsScrollSync = null;
+            };
         }
 
         window.closeModal = function() {
+            if (removeDetailsScrollSync) removeDetailsScrollSync();
             document.getElementById('modal-container').classList.remove('details-sidebar-open');
             document.getElementById('view-editor').classList.remove('details-sidebar-open');
             document.getElementById('modal-content-wrapper').classList.add('translate-y-full');
