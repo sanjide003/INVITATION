@@ -1,0 +1,9 @@
+export const firebaseConfig = Object.freeze({
+    apiKey: "AIzaSyCp-NKbL_kmB2nzlTv9fSisc2cVuE55p-Q",
+    authDomain: "online-angadi-003.firebaseapp.com",
+    projectId: "online-angadi-003",
+    storageBucket: "online-angadi-003.firebasestorage.app",
+    messagingSenderId: "873906876645",
+    appId: "1:873906876645:web:a730abef1e07da515f640c",
+    measurementId: "G-GH1DZXR5ZP"
+});

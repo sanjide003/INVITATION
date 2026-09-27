@@ -35,7 +35,7 @@ window.registerTemplate({
         const set = d?.settings || {};
 
         // Safe HTML escaping helper
-        const escape = (val, fallback = '') => String(val || fallback)
+        const escape = (val, fallback = '') => String(val ?? fallback)
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
