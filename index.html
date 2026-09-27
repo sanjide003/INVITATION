@@ -273,8 +273,8 @@
                 <button id="btn-header-save" onclick="saveFirstTime()" class="hidden bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 md:px-5 md:py-2 rounded-xl text-xs md:text-sm font-bold items-center gap-2 transition-all shadow-md active:scale-95 ring-2 ring-emerald-500/30">
                     <i class="fa-solid fa-floppy-disk text-sm"></i> <span>Save Invitation</span>
                 </button>
-                <button onclick="openModal('modal-layers')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition active:scale-95">
-                    <i class="fa-solid fa-layer-group text-brand-500"></i> <span class="hidden md:inline">Layers</span>
+                <button onclick="openInvitationDetails()" class="bg-brand-50 hover:bg-brand-100 text-brand-800 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition active:scale-95">
+                    <i class="fa-solid fa-pen-to-square text-brand-500"></i> <span>Invitation details</span>
                 </button>
                 <button onclick="openModal('modal-presentation')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 md:px-4 md:py-2 rounded-lg text-xs font-bold flex items-center gap-2 transition active:scale-95">
                     <i class="fa-solid fa-laptop-code text-brand-500"></i> <span class="hidden md:inline">Presentation Mode</span>
@@ -294,7 +294,7 @@
 
         <div class="flex-grow overflow-auto relative flex justify-center pt-4 md:pt-8 pb-20" id="editor-workspace">
             <div id="editor-hint" class="fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-6 py-3 rounded-full text-sm font-medium z-30 shadow-lg pointer-events-none transition-opacity duration-500 flex items-center gap-3">
-                <i class="fa-solid fa-hand-pointer animate-bounce"></i> Tap any element to edit style, content, or drag
+                <i class="fa-solid fa-pen-to-square animate-bounce"></i> Use Invitation details to fill in every part of your design
             </div>
             
             <div class="w-full max-w-[420px] bg-white min-h-[800px] shadow-2xl relative transition-transform duration-300 mx-auto overflow-hidden" id="visual-editor-canvas">
@@ -494,6 +494,7 @@
                 
                 <!-- 1. Couple Modal -->
                 <div id="modal-couple" class="hidden edit-form space-y-4">
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-3"><h4 class="font-bold text-gray-800">Couple details</h4><label class="flex items-center gap-2 text-xs font-semibold text-gray-600"><span>Show</span><input type="checkbox" data-key="showCouple" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Groom's Name</label>
                     <input type="text" id="ed-groom" placeholder="Enter Groom's Name" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Bride's Name</label>
@@ -521,18 +522,19 @@
 
                 <!-- 2. Content/Message Modal -->
                 <div id="modal-content" class="hidden edit-form space-y-4">
-                    <div id="content-field-heading"><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Top Heading</label>
+                    <div id="content-field-heading"><label class="flex items-center justify-between text-xs font-bold text-gray-500 mb-1 uppercase">Top Heading <input type="checkbox" data-key="showHeading" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label>
                     <input type="text" id="ed-heading" placeholder="Enter top heading text" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                     
-                    <div id="content-field-message"><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Invitation Text</label>
+                    <div id="content-field-message"><label class="flex items-center justify-between text-xs font-bold text-gray-500 mb-1 uppercase">Invitation Text <input type="checkbox" data-key="showMessage" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label>
                     <textarea id="ed-message" rows="4" placeholder="Enter your main invitation message here" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none resize-none focus:border-brand-500" oninput="handleEditorInput()"></textarea></div>
                     
-                    <div id="content-field-bismillah" class="hidden"><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Bismillah Text</label>
+                    <div id="content-field-bismillah" class="hidden"><label class="flex items-center justify-between text-xs font-bold text-gray-500 mb-1 uppercase">Bismillah Text <input type="checkbox" data-key="showBismillah" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label>
                     <input type="text" id="ed-bismillah" placeholder="بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ" class="w-full font-arabic bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg text-right focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                 </div>
 
                 <!-- 3. Quran/Verse Modal -->
                 <div id="modal-quran" class="hidden edit-form space-y-4">
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-3"><h4 class="font-bold text-gray-800">Quote or verse</h4><label class="flex items-center gap-2 text-xs font-semibold text-gray-600"><span>Show</span><input type="checkbox" data-key="showQuote" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Arabic Text / Quote</label>
                     <input type="text" id="ed-arabic" placeholder="Enter arabic verse or quote" class="w-full font-arabic bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg text-right focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Translation</label>
@@ -541,6 +543,7 @@
 
                 <!-- 4. Main Event Modal -->
                 <div id="modal-mainEvent" class="hidden edit-form space-y-4">
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-3"><h4 class="font-bold text-gray-800">Event details</h4><label class="flex items-center gap-2 text-xs font-semibold text-gray-600"><span>Show</span><input type="checkbox" data-key="showEvent" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Event Title</label>
                     <input type="text" id="ed-me-title" placeholder="e.g. Nikah Ceremony" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                     <div class="grid grid-cols-2 gap-3">
@@ -556,7 +559,7 @@
                     <input type="text" id="ed-me-venue" placeholder="Enter Venue Name" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                     <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Short Address</label>
                     <input type="text" id="ed-me-address" placeholder="Enter City/Area" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-sm focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
-                    <div><label class="block text-xs font-bold text-gray-500 mb-1 uppercase">Google Maps URL</label>
+                    <div><label class="flex items-center justify-between text-xs font-bold text-gray-500 mb-1 uppercase">Google Maps URL <input type="checkbox" data-key="showMap" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)"></label>
                     <input type="url" id="ed-me-map" placeholder="Paste map link here" class="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-xs focus:border-brand-500 outline-none" oninput="handleEditorInput()"></div>
                     
                     <div class="border border-gray-200 rounded-xl p-3 text-center bg-gray-50 relative overflow-hidden mt-4">
@@ -567,6 +570,11 @@
                             <input type="file" class="hidden" accept="image/*" onchange="handleImageUpload(this, 'venueImage')">
                         </label>
                         <button id="btn-clear-venue" class="text-red-500 text-[9px] font-bold mt-2 hidden bg-red-50 px-3 py-1 rounded-lg w-full text-center" onclick="clearVenueImage()"><i class="fa-solid fa-trash mr-1"></i> Remove Photo</button>
+                    </div>
+
+                    <div class="flex items-center justify-between border-t border-gray-100 pt-4 mt-4">
+                        <div><h4 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Guest RSVP</h4><p class="text-[10px] text-gray-400">Let guests confirm their attendance</p></div>
+                        <input type="checkbox" data-key="showRsvp" class="w-4 h-4 rounded text-brand-500" onchange="handleFieldVisibilityToggle(this)">
                     </div>
 
                     <!-- RSVP Section (Only visible when showRsvp is enabled) -->
@@ -651,55 +659,6 @@
                     </div>
                 </div>
                 
-                <!-- 6. Layers Modal (Toggle Visibility) -->
-                <div id="modal-layers" class="hidden edit-form space-y-4">
-                    <p class="text-xs text-gray-500 mb-4 font-medium">Turn elements on or off. In Blank Canvas mode, you can drag visible elements freely on the screen.</p>
-                    <div class="space-y-2" id="layers-list">
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Bismillah</span>
-                            <input type="checkbox" id="layer-bismillah" data-key="showBismillah" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Top Heading</span>
-                            <input type="checkbox" id="layer-heading" data-key="showHeading" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Couple Names</span>
-                            <input type="checkbox" id="layer-couple" data-key="showCouple" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Invitation Message</span>
-                            <input type="checkbox" id="layer-message" data-key="showMessage" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Islamic Verse / Quote</span>
-                            <input type="checkbox" id="layer-quran" data-key="showQuote" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Main Event Details</span>
-                            <input type="checkbox" id="layer-event" data-key="showEvent" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <span class="text-sm font-medium text-gray-700">Map Button</span>
-                            <input type="checkbox" id="layer-map" data-key="showMap" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <div>
-                                <span class="text-sm font-medium text-gray-700 block">Collect RSVPs</span>
-                                <span class="text-[10px] text-gray-400 block">Enable RSVP form for guests</span>
-                            </div>
-                            <input type="checkbox" id="layer-rsvp" data-key="showRsvp" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
-                            <div>
-                                <span class="text-sm font-medium text-gray-700 block">Wedding Countdown</span>
-                                <span class="text-[10px] text-gray-400 block">Display days until wedding counter</span>
-                            </div>
-                            <input type="checkbox" id="layer-countdown" data-key="showCountdown" class="w-5 h-5 rounded text-brand-500" onchange="handleLayerToggle(this)">
-                        </div>
-                    </div>
-                </div>
-
                 <!-- 8. Presentation Style Selection Modal -->
                 <div id="modal-presentation" class="hidden edit-form space-y-4 text-left">
                     <p class="text-xs text-gray-500 mb-4 font-medium">How should the invitation be presented to guests? Choose your preferred page navigation model.</p>
@@ -1192,8 +1151,8 @@ END:VCALENDAR`;
                 const bgImg = d.design?.bgImage ? `background-image: url('${d.design.bgImage}'); background-size: cover; background-position: center;` : '';
                 let html = `<div class="w-full min-h-[800px] h-full relative overflow-hidden" style="background-color: ${colors.bg}; ${bgImg}">`;
                 
-                html += wrap('bismillah', `<div style="${getStyleStr(d, 'bismillah', '24px', "'Amiri', serif", colors.primary)}">${d.content?.bismillah || 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ'}</div>`, 'showBismillah');
-                html += wrap('heading', `<div style="${getStyleStr(d, 'heading', '12px', "'Poppins', sans-serif", colors.text)} text-transform:uppercase; letter-spacing:0.2em;">${d.content?.heading || 'Top Heading'}</div>`, 'showHeading');
+                html += wrap('bismillah', `<div style="${getStyleStr(d, 'bismillah', '24px', "'Amiri', serif", colors.primary)}">${d.content?.bismillah ?? 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ'}</div>`, 'showBismillah');
+                html += wrap('heading', `<div style="${getStyleStr(d, 'heading', '12px', "'Poppins', sans-serif", colors.text)} text-transform:uppercase; letter-spacing:0.2em;">${d.content?.heading ?? 'Top Heading'}</div>`, 'showHeading');
                 
                 let photosHtml = '';
                 if(d.couple?.groomPhoto || d.couple?.bridePhoto) {
@@ -1206,9 +1165,9 @@ END:VCALENDAR`;
                 html += wrap('couple', `
                     <div class="w-full text-center flex flex-col items-center justify-center">
                         ${photosHtml}
-                        <h1 style="${getStyleStr(d, 'couple', '40px', "'Playfair Display', serif", colors.primary)} font-weight:bold; line-height:1.2;">${d.couple?.groom || 'Groom Name'}</h1>
+                        <h1 style="${getStyleStr(d, 'couple', '40px', "'Playfair Display', serif", colors.primary)} font-weight:bold; line-height:1.2;">${d.couple?.groom ?? 'Groom Name'}</h1>
                         <span style="${getStyleStr(d, 'couple', '20px', "'Playfair Display', serif", colors.primary)} opacity:0.6; margin:4px 0;">&</span>
-                        <h1 style="${getStyleStr(d, 'couple', '40px', "'Playfair Display', serif", colors.primary)} font-weight:bold; line-height:1.2;">${d.couple?.bride || 'Bride Name'}</h1>
+                        <h1 style="${getStyleStr(d, 'couple', '40px', "'Playfair Display', serif", colors.primary)} font-weight:bold; line-height:1.2;">${d.couple?.bride ?? 'Bride Name'}</h1>
                     </div>
                 `, 'showCouple');
 
@@ -1218,17 +1177,17 @@ END:VCALENDAR`;
                 const displayInitials = d.couple?.customInitials ? d.couple.customInitials : defaultInitials;
                 html += wrap('monogram', `<div class="w-12 h-12 mx-auto rounded-full border-2 border-dashed flex items-center justify-center font-serif text-sm font-bold" style="border-color: ${colors.primary}; color: ${colors.primary};">${displayInitials}</div>`, 'showCouple');
 
-                html += wrap('message', `<p style="${getStyleStr(d, 'message', '14px', "'Poppins', sans-serif", colors.text)} opacity:0.8; max-width:80%; white-space:pre-line;">${d.content?.message || 'Invitation Message'}</p>`, 'showMessage');
+                html += wrap('message', `<p style="${getStyleStr(d, 'message', '14px', "'Poppins', sans-serif", colors.text)} opacity:0.8; max-width:80%; white-space:pre-line;">${d.content?.message ?? 'Invitation Message'}</p>`, 'showMessage');
                 
                 html += wrap('quran', `
                     <div class="text-center w-full max-w-[280px]">
-                        <p style="${getStyleStr(d, 'quran', '20px', "'Amiri', serif", colors.primary)}">${d.content?.arabicText || 'Arabic Verse'}</p>
-                        <p style="${getStyleStr(d, 'quran', '10px', "'Poppins', sans-serif", colors.text)} opacity:0.6; text-transform:uppercase; margin-top:4px;">${d.content?.translation || 'Translation'}</p>
+                        <p style="${getStyleStr(d, 'quran', '20px', "'Amiri', serif", colors.primary)}">${d.content?.arabicText ?? 'Arabic Verse'}</p>
+                        <p style="${getStyleStr(d, 'quran', '10px', "'Poppins', sans-serif", colors.text)} opacity:0.6; text-transform:uppercase; margin-top:4px;">${d.content?.translation ?? 'Translation'}</p>
                     </div>
                 `, 'showQuote');
 
                 const formatTime = (t) => window.formatTimeTo12Hour ? window.formatTimeTo12Hour(t) : t;
-                const time = formatTime(d.mainEvent?.time || 'Time');
+                const time = formatTime(d.mainEvent?.time ?? 'Time');
                 const endTime = d.mainEvent?.endTime ? formatTime(d.mainEvent.endTime) : '';
                 const displayTime = endTime ? `${time} - ${endTime}` : time;
 
@@ -1244,11 +1203,11 @@ END:VCALENDAR`;
 
                 html += wrap('mainEvent', `
                     <div class="p-4 bg-white/40 backdrop-blur-sm rounded-xl border border-black/5 inline-block w-full max-w-[260px] text-center shadow-sm">
-                        <h3 style="${getStyleStr(d, 'mainEvent', '12px', "'Poppins', sans-serif", colors.primary)} font-weight:bold; text-transform:uppercase; margin-bottom:8px;">${d.mainEvent?.title || 'Event Title'}</h3>
-                        <div style="${getStyleStr(d, 'mainEvent', '16px', "'Poppins', sans-serif", colors.text)} font-weight:bold;">${d.mainEvent?.date || 'Your Wedding Date'}</div>
+                        <h3 style="${getStyleStr(d, 'mainEvent', '12px', "'Poppins', sans-serif", colors.primary)} font-weight:bold; text-transform:uppercase; margin-bottom:8px;">${d.mainEvent?.title ?? 'Event Title'}</h3>
+                        <div style="${getStyleStr(d, 'mainEvent', '16px', "'Poppins', sans-serif", colors.text)} font-weight:bold;">${d.mainEvent?.date ?? 'Your Wedding Date'}</div>
                         <div style="${getStyleStr(d, 'mainEvent', '12px', "'Poppins', sans-serif", colors.text)} opacity:0.8; margin-bottom:8px;">${displayTime}</div>
-                        <div style="${getStyleStr(d, 'mainEvent', '14px', "'Poppins', sans-serif", colors.text)} font-weight:bold;">${d.mainEvent?.venue || 'Venue'}</div>
-                        <div style="${getStyleStr(d, 'mainEvent', '10px', "'Poppins', sans-serif", colors.text)} opacity:0.7;">${d.mainEvent?.address || 'Address'}</div>
+                        <div style="${getStyleStr(d, 'mainEvent', '14px', "'Poppins', sans-serif", colors.text)} font-weight:bold;">${d.mainEvent?.venue ?? 'Venue'}</div>
+                        <div style="${getStyleStr(d, 'mainEvent', '10px', "'Poppins', sans-serif", colors.text)} opacity:0.7;">${d.mainEvent?.address ?? 'Address'}</div>
                         ${venueImageHtml}
                     </div>
                 `, 'showEvent');
@@ -1363,9 +1322,9 @@ END:VCALENDAR`;
                                 code: code,
                                 status: 'draft',
                                 templateId: templateId,
-                                couple: { groom: '', bride: '', groomPhoto: null, bridePhoto: null, customInitials: '' },
-                                mainEvent: { title: '', date: '', time: '', endTime: '', venue: '', address: '', mapUrl: '', venueImage: null },
-                                content: { heading: '', message: '', arabicText: '', translation: '', bismillah: '' },
+                                couple: { groom: 'Groom Name', bride: 'Bride Name', groomPhoto: null, bridePhoto: null, customInitials: '' },
+                                mainEvent: { title: 'Wedding Ceremony', date: '', time: '', endTime: '', venue: 'Venue Name', address: 'City, Area', mapUrl: '', venueImage: null },
+                                content: { heading: 'We cordially invite you', message: 'Together with our families, we invite you to celebrate our special day.', arabicText: 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ', translation: 'In the name of Allah, the Most Gracious, the Most Merciful', bismillah: 'بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيمِ' },
                                 design: { colors: {}, styles: {}, bgImage: null, positions: {}, musicUrl: '' }, 
                                 settings: { showBismillah: true, showHeading: true, showCouple: true, showMessage: true, showQuote: true, showEvent: true, showMap: true, showRsvp: false, showMusic: false, showCountdown: false },
                                 createdAt: null,
@@ -2062,9 +2021,7 @@ END:VCALENDAR`;
                 const mode = 'scrolling'; // Forced for editing/inputting data on Admin side per request
                 canvas.className = `w-full max-w-[420px] bg-white min-h-[800px] shadow-2xl relative transition-transform duration-300 mx-auto overflow-hidden presentation-mode-${mode}`;
                 canvas.style.overflow = (t.scrollable && mode === 'scrolling') ? 'visible' : 'hidden';
-                container.innerHTML = t.render(state.data, true);
-                attachEditListeners();
-                if(t.freeform) initDragDrop();
+                container.innerHTML = t.render(state.data, false);
 
                 // Initialize presentation scripts in forced scrolling mode
                 setTimeout(() => {
@@ -2210,7 +2167,7 @@ END:VCALENDAR`;
             const target = document.getElementById(contentId);
             if(target) target.classList.remove('hidden');
             
-            const titles = { 'modal-couple': 'Edit Names', 'modal-content': 'Edit Texts', 'modal-quran': 'Edit Verse', 'modal-mainEvent': 'Event Details', 'modal-themes': 'Theme Options', 'modal-layers': 'Layers & Visibility', 'modal-presentation': 'Presentation Style', 'modal-view-all': 'View All' };
+            const titles = { 'modal-couple': 'Edit Names', 'modal-content': 'Edit Texts', 'modal-quran': 'Edit Verse', 'modal-mainEvent': 'Event Details', 'modal-themes': 'Theme Options', 'modal-presentation': 'Presentation Style', 'modal-view-all': 'View All' };
             document.getElementById('modal-title').innerText = titles[contentId] || 'Edit';
 
             // Handle Dynamic Style Panel
@@ -2231,6 +2188,18 @@ END:VCALENDAR`;
                 document.getElementById('content-field-message').classList.toggle('hidden', blockKey !== 'message');
                 document.getElementById('content-field-bismillah').classList.toggle('hidden', blockKey !== 'bismillah');
             }
+        }
+
+        window.openInvitationDetails = function() {
+            currentEditKey = null;
+            document.getElementById('modal-container').classList.remove('hidden');
+            setTimeout(() => { document.getElementById('modal-content-wrapper').classList.remove('translate-y-full'); }, 10);
+            document.querySelectorAll('.edit-form').forEach(el => el.classList.add('hidden'));
+            ['modal-couple', 'modal-content', 'modal-quran', 'modal-mainEvent'].forEach(id => document.getElementById(id)?.classList.remove('hidden'));
+            ['content-field-heading', 'content-field-message', 'content-field-bismillah'].forEach(id => document.getElementById(id)?.classList.remove('hidden'));
+            document.getElementById('modal-title').innerText = 'Invitation details';
+            document.getElementById('dynamic-style-panel').classList.add('hidden');
+            bindDataToForms();
         }
 
         window.closeModal = function() {
@@ -2277,7 +2246,7 @@ END:VCALENDAR`;
             document.getElementById('ed-me-address').value = d.mainEvent?.address || '';
             document.getElementById('ed-me-map').value = d.mainEvent?.mapUrl || '';
             
-            document.querySelectorAll('#layers-list input[type="checkbox"]').forEach(cb => {
+            document.querySelectorAll('[data-key]').forEach(cb => {
                 const key = cb.getAttribute('data-key');
                 cb.checked = d.settings?.[key] !== false;
             });
@@ -2351,8 +2320,6 @@ END:VCALENDAR`;
             const isCountdown = d.settings?.showCountdown === true;
             const edCountdownToggle = document.getElementById('ed-toggle-countdown');
             if (edCountdownToggle) edCountdownToggle.checked = isCountdown;
-            const layerCountdown = document.getElementById('layer-countdown');
-            if (layerCountdown) layerCountdown.checked = isCountdown;
             const countdownBox = document.getElementById('countdown-status-box');
             if (countdownBox) {
                 if (isCountdown) {
@@ -2380,7 +2347,7 @@ END:VCALENDAR`;
             });
         }
 
-        window.handleLayerToggle = function(cb) {
+        window.handleFieldVisibilityToggle = function(cb) {
             if (!state.data || !state.data.settings) return;
             state.data.settings[cb.getAttribute('data-key')] = cb.checked;
             bindDataToForms();
@@ -2761,8 +2728,6 @@ END:VCALENDAR`;
             if (!state.data) return;
             if (!state.data.settings) state.data.settings = {};
             state.data.settings.showCountdown = cb.checked;
-            const layerCb = document.getElementById('layer-countdown');
-            if (layerCb) layerCb.checked = cb.checked;
             bindDataToForms();
             handleEditorInput();
         };

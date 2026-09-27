@@ -34,7 +34,7 @@ window.registerTemplate({
         const set = d.settings || {};
 
         // Safe HTML escaping helper
-        const escape = (val, fallback = '') => String(val || fallback)
+        const escape = (val, fallback = '') => String(val ?? fallback)
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
@@ -177,9 +177,9 @@ window.registerTemplate({
         html += wrap('content', `
             <div class="text-[10px] md:text-xs uppercase tracking-[0.35em] mb-10 font-bold opacity-80" 
                  style="color: ${colors.text}">
-                 ${d.content?.heading || 'We Cordially Invite You'}
+                 ${d.content?.heading ?? 'We Cordially Invite You'}
             </div>
-        `);
+        `, 'showHeading');
         
         // 3. Couple Section (Couple Modal)
         let photosHtml = '';
@@ -222,29 +222,29 @@ window.registerTemplate({
                 <h1 class="text-4xl md:text-5xl font-bold mt-3 drop-shadow-sm leading-tight" 
                     style="font-family: ${fonts.heading}; color: ${colors.primary}">${brideName}</h1>
             </div>
-        `);
+        `, 'showCouple');
 
         // Custom initials Monogram
         html += wrap('couple', `
             <div class="rg-monogram">${displayInitials}</div>
-        `);
+        `, 'showCouple');
 
         // 4. Message Text (Content Modal)
         html += wrap('content', `
             <p class="text-sm md:text-base leading-relaxed mb-10 px-4 opacity-80 whitespace-pre-line font-medium">
-                ${d.content?.message || 'to join us on our special day\nand bless our new beginning.'}
+                ${d.content?.message ?? 'to join us on our special day\nand bless our new beginning.'}
             </p>
-        `);
+        `, 'showMessage');
         
         // 5. Quranic Verse (Quran Modal)
         html += wrap('quran', `
             <div class="my-8 py-6 w-[85%] mx-auto relative">
                 <div class="absolute top-0 left-1/2 transform -translate-x-1/2 w-16 h-px opacity-50" style="background-color: ${colors.primary}"></div>
                 <p class="font-arabic text-2xl md:text-3xl mb-3 leading-loose" style="color: ${colors.primary}; font-family: 'Amiri', serif;">
-                    ${d.content?.arabicText || 'وَخَلَقْنَاكُمْ أَزْوَاجًا'}
+                    ${d.content?.arabicText ?? 'وَخَلَقْنَاكُمْ أَزْوَاجًا'}
                 </p>
                 <p class="text-[10px] md:text-xs uppercase tracking-widest opacity-70 font-semibold">
-                    ${d.content?.translation || '"And We created you in pairs"'}
+                    ${d.content?.translation ?? '"And We created you in pairs"'}
                 </p>
                 <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-px opacity-50" style="background-color: ${colors.primary}"></div>
             </div>
@@ -256,27 +256,27 @@ window.registerTemplate({
                 <h3><i class="fa-regular fa-calendar-days"></i> ${monthLabel}</h3>
                 ${calendar}
             </div>
-        `);
+        `, 'showEvent');
 
         if (set.showCountdown) {
             html += wrap('mainEvent', window.renderCountdownHtml ? window.renderCountdownHtml(d, colors, 'my-5') : '', 'showCountdown');
         }
 
         // 6. Main Event (Main Event Modal)
-        const mapBtnHtml = (d.mainEvent?.mapUrl && !isEditMode) 
+        const mapBtnHtml = (set.showMap !== false && d.mainEvent?.mapUrl && !isEditMode)
             ? `<a href="${safeMapUrl}" target="_blank" class="inline-block text-[10px] uppercase tracking-wider font-bold border-2 px-6 py-2 rounded-full hover:shadow-md transition-all active:scale-95 mr-2" style="border-color: ${colors.primary}; color: ${colors.primary}">Get Directions</a>`
             : (isEditMode ? `<div class="inline-block text-[10px] uppercase tracking-wider font-bold border-2 px-6 py-2 rounded-full opacity-80 mr-2" style="border-color: ${colors.primary}; color: ${colors.primary}">Directions</div>` : '');
 
         const reminderBtnHtml = isEditMode
             ? `<span class="rg-reminder-btn"><i class="fa-regular fa-bell"></i> Reminder</span>`
-            : `<button type="button" class="rg-reminder-btn" onclick="addWeddingReminder(this)" data-title="${escape(encodeURIComponent(`${d.mainEvent?.title || 'Nikah Ceremony'} — ${groomName} & ${brideName}`))}" data-location="${escape(encodeURIComponent(`${eventVenue}, ${eventAddress}`))}" data-date="${d.mainEvent?.date || ''}" data-time="${escape(eventTime)}"><i class="fa-regular fa-bell"></i> Reminder</button>`;
+            : `<button type="button" class="rg-reminder-btn" onclick="addWeddingReminder(this)" data-title="${escape(encodeURIComponent(`${d.mainEvent?.title ?? 'Nikah Ceremony'} — ${groomName} & ${brideName}`))}" data-location="${escape(encodeURIComponent(`${eventVenue}, ${eventAddress}`))}" data-date="${d.mainEvent?.date || ''}" data-time="${escape(eventTime)}"><i class="fa-regular fa-bell"></i> Reminder</button>`;
 
         html += wrap('mainEvent', `
             <div class="bg-black/5 backdrop-blur-sm rounded-3xl p-8 w-full shadow-inner border border-black/5 mt-4">
                 <h3 class="text-xs md:text-sm font-bold uppercase tracking-[0.2em] mb-4" 
-                    style="color: ${colors.primary}">${d.mainEvent?.title || 'Nikah Ceremony'}</h3>
+                    style="color: ${colors.primary}">${d.mainEvent?.title ?? 'Nikah Ceremony'}</h3>
                 
-                <div class="font-semibold text-xl mb-1">${d.mainEvent?.date || 'Your Wedding Date'}</div>
+                <div class="font-semibold text-xl mb-1">${d.mainEvent?.date ?? 'Your Wedding Date'}</div>
                 <div class="text-sm opacity-80 mb-6 font-medium">${displayTime}</div>
                 
                 <div class="font-bold text-lg leading-tight mb-2">${eventVenue}</div>

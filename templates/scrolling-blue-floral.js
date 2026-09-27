@@ -281,7 +281,7 @@ window.registerTemplate({
     render: function(d, isEditMode) {
         const colors = { ...this.defaults.colors, ...(d.design?.colors || {}) };
         const content = d.content || {}, couple = d.couple || {}, event = d.mainEvent || {}, set = d.settings || {};
-        const escape = (value, fallback = '') => String(value || fallback).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+        const escape = (value, fallback = '') => String(value ?? fallback).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
         const edit = (key, html, visibilityKey) => {
             if (visibilityKey && set[visibilityKey] === false) return isEditMode ? `<div class="bs-hidden" data-edit="${key}">${html}</div>` : '';
             return isEditMode ? `<div class="bs-editable" data-edit="${key}"><span class="bs-pen"><i class="fa-solid fa-pen"></i></span>${html}</div>` : html;
@@ -304,7 +304,7 @@ window.registerTemplate({
         const arabic = escape(content.arabicText, 'بَارَكَ اللَّهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ');
         const translation = escape(content.translation, 'May Allah bless you, shower His blessings upon you, and bring you together in goodness.');
         const mapUrl = event.mapUrl && /^https?:\/\//i.test(event.mapUrl) ? escape(event.mapUrl) : '';
-        const location = mapUrl ? `<a class="bs-pill" href="${mapUrl}" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Location</a>` : `<span class="bs-pill"><i class="fa-solid fa-location-dot"></i> Location</span>`;
+        const location = set.showMap === false ? '' : (mapUrl ? `<a class="bs-pill" href="${mapUrl}" target="_blank" rel="noopener"><i class="fa-solid fa-location-dot"></i> Location</a>` : `<span class="bs-pill"><i class="fa-solid fa-location-dot"></i> Location</span>`);
         const flower = (className) => `<div class="bs-flower ${className}" aria-hidden="true"><span style="--r:0deg"></span><span style="--r:45deg"></span><span style="--r:90deg"></span><span style="--r:135deg"></span><span style="--r:180deg"></span><span style="--r:225deg"></span><span style="--r:270deg"></span><span style="--r:315deg"></span><i></i></div>`;
         const reminder = isEditMode ? '<span class="bs-reminder-action"><i class="fa-regular fa-bell"></i> Reminder</span>' : `<button type="button" class="bs-reminder-action" onclick="addWeddingReminder(this)" data-title="${escape(encodeURIComponent(`${title} — ${groom} & ${bride}`))}" data-location="${escape(encodeURIComponent(`${venue}, ${address}`))}" data-date="${event.date || ''}" data-time="${escape(time)}"><i class="fa-regular fa-bell"></i> Add Reminder</button>`;
         
