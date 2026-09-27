@@ -787,16 +787,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getFirestore, collection, doc, setDoc, getDoc, getDocs, query, where, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        
-        // YOUR FIREBASE CONFIG
-        const firebaseConfig = {
-            apiKey: "AIzaSyDdUyk_yvZoQ1JI1pPLJTK51U91BVO0XSA",
-            authDomain: "bright-tube-p07pf.firebaseapp.com",
-            projectId: "bright-tube-p07pf",
-            storageBucket: "bright-tube-p07pf.firebasestorage.app",
-            messagingSenderId: "239455260650",
-            appId: "1:239455260650:web:5cfa4803e7fcad93cc6c93"
-        };
+        import { firebaseConfig } from "./firebase-config.js";
 
         let app, auth, db;
         let currentUser = null;
@@ -815,7 +806,7 @@
         try {
             app = initializeApp(firebaseConfig);
             auth = getAuth(app);
-            db = getFirestore(app, "ai-studio-invitation-659e5d2e-a942-4887-9968-16c1c58948ae");
+            db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
         } catch (e) {
             console.error("Firebase init failed:", e);
             showToast("Firebase Config Error.", "error");
